@@ -4,17 +4,16 @@ const endpoint = (req, res) => {
   res.send("API is running ...");
 };
 
-const getMovie = (req, res) => {
+const getMovie = async (req, res) => {
   try {
-    const data = db.query(`
+    const data = await db.query(`
       SELECT movies.id, title, released_year, duration, lang, description
       FROM movies
       INNER JOIN genre ON movies.id_genre = genre.id;
     `);
-
-    res.json({
+    res.status(202).json({
       message: "GET all movies success",
-      data: data,
+      results: data[0],
     });
   } catch (error) {
     console.error(error);
