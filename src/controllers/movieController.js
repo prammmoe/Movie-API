@@ -11,10 +11,9 @@ const getMovie = async (req, res) => {
       FROM movies
       INNER JOIN genre ON movies.id_genre = genre.id;
     `);
-
-    res.json({
+    res.status(202).json({
       message: "GET all movies success",
-      data: data,
+      results: data[0],
     });
   } catch (error) {
     console.error(error);
