@@ -3,11 +3,13 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 7000;
 
-const routes = require("./src/routes/movieRoutes");
+const movieRoutes = require("./src/routes/movieRoutes");
+const genreRoutes = require("./src/routes/genreRoutes");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/", routes);
+app.use("/", movieRoutes);
+app.use("/", genreRoutes);
 
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);
