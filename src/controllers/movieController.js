@@ -1,26 +1,20 @@
-const db = require("../configs/db");
+const db = require("../configs/db"); // Assuming this imports a database connection
 
 const endpoint = (req, res) => {
   res.send("API is running ...");
 };
 
-const getMovie = async (req, res) => {
-  try {
-    const data = await db.query(`
-      SELECT movies.id, title, released_year, duration, lang, description
-      FROM movies
-      INNER JOIN genre ON movies.id_genre = genre.id;
-    `);
-    res.status(202).json({
-      message: "GET all movies success",
-      results: data[0],
-    });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ message: "Terjadi kesalahan saat mengambil data film." });
-  }
+const getMovie = (req, res) => {
+  db.query("SELECT * FROM movies", function (err, results) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        message: "GET all movies success",
+        data: results,
+      });
+    }
+  });
 };
 
 module.exports = { endpoint, getMovie };
