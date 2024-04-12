@@ -8,8 +8,8 @@ const genreRoutes = require("./src/routes/genreRoutes");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/", movieRoutes);
-app.use("/", genreRoutes);
+app.use(movieRoutes);
+app.use(genreRoutes);
 
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);
