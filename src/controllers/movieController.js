@@ -1,9 +1,5 @@
 const db = require("../configs/db"); // Assuming this imports a database connection
 
-const endpoint = (req, res) => {
-  res.send("API is running ...");
-};
-
 const getMovie = (req, res) => {
   db.query("SELECT * FROM movies", function (err, results) {
     if (err) {
@@ -17,4 +13,4 @@ const getMovie = (req, res) => {
   });
 };
 
-module.exports = { endpoint, getMovie };
+module.exports = { getMovie };
