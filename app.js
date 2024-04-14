@@ -11,6 +11,10 @@ app.use(express.json());
 app.use(movieRoutes);
 app.use(genreRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Welcome!");
+});
+
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);
 });
