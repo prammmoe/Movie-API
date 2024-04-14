@@ -13,4 +13,42 @@ const getMovie = (req, res) => {
   });
 };
 
-module.exports = { getMovie };
+const addMovie = (req, res) => {
+  const { title, released_year, duration, lang, description, id_genre } =
+    req.body;
+
+  if (
+    !title ||
+    !released_year ||
+    !duration ||
+    !lang ||
+    !description ||
+    !id_genre
+  ) {
+    res.status(300).json({
+      message: "The values can't be null.",
+    });
+
+    console.log(req.body);
+  } else {
+    db.query(
+      "INSERT INTO movies (title, released_year, duration, lang, description, id_genre) values (?, ?, ?, ?, ?, ?)",
+      [title, released_year, duration, lang, description, id_genre],
+      function (err, results) {
+        if (err) {
+          console.log(err);
+          res.status(400).json({
+            message: "Error add data.",
+          });
+        } else {
+          res.status(200).json({
+            message: "POST movie success",
+            data: req.body,
+          });
+        }
+      }
+    );
+  }
+};
+
+module.exports = { getMovie, addMovie };
