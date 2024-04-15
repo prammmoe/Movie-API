@@ -31,4 +31,18 @@ const addMovie = async (req, res) => {
   });
 };
 
-module.exports = { getMovie, addMovie };
+const deleteMovie = async (req, res) => {
+  const movieId = req.params.id;
+
+  await prisma.movie.delete({
+    where: {
+      id: parseInt(movieId),
+    },
+  });
+
+  res.send({
+    message: "Movie deleted",
+  });
+};
+
+module.exports = { getMovie, addMovie, deleteMovie };
