@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Genre {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  Movie Movie[]
+}
+
+model Movie {
+  id           Int    @id @default(autoincrement())
+  title        String @unique
+  releasedYear Int
+  duration     String // Prisma doesn't directly map MySQL TIME type, consider converting to a string format
+  lang         String
+  description  String
+  genre        Genre  @relation(fields: [id_genre], references: [id])
+  id_genre     Int
+}
