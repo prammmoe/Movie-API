@@ -5,8 +5,6 @@ const port = process.env.PORT || 7000;
 
 const movieRoutes = require("./src/routes/movieRoutes");
 const genreRoutes = require("./src/routes/genreRoutes");
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
