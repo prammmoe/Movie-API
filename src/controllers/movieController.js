@@ -1,10 +1,49 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const getMovie = async (req, res) => {
-  const movie = await prisma.movie.findMany();
+async function getMovieById(prisma, movieId) {
+  try {
+    const movie = await prisma.movie.findUnique({
+      where: {
+        id: movieId,
+      },
+    });
+    return movie;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
-  res.send(movie);
+async function getAllMovies(prisma) {
+  try {
+    const movies = await prisma.movie.findMany();
+    return movies;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+const getMovie = async (req, res) => {
+  const movieId = parseInt(req.params.id);
+
+  try {
+    if (movieId) {
+      const movie = await getMovieById(prisma, movieId);
+      if (movie) {
+        res.send(movie);
+      } else {
+        res.status(404).send({ message: "Movie not found" });
+      }
+    } else {
+      const movies = await getAllMovies(prisma);
+      res.send(movies);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
 };
 
 const addMovie = async (req, res) => {
@@ -24,7 +63,7 @@ const addMovie = async (req, res) => {
       },
     },
   });
-  res.send({
+  res.status(200).send({
     data: result,
     message: "Create movie success",
   });
@@ -39,7 +78,7 @@ const deleteMovie = async (req, res) => {
     },
   });
 
-  res.send({
+  res.status(200).send({
     message: "Movie deleted",
   });
 };
@@ -66,7 +105,7 @@ const updateMovie = async (req, res) => {
     },
   });
 
-  res.send({
+  res.status(200).send({
     data: result,
     message: "Edit movie success",
   });
