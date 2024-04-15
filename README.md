@@ -28,10 +28,6 @@ npm start
 npx prisma studio
 ```
 
-## Response
-
-Sample response:
-
 ### Request
 
 ```
