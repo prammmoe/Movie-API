@@ -23,7 +23,7 @@ model Movie {
   id           Int    @id @default(autoincrement())
   title        String @unique
   releasedYear Int
-  duration     String // Prisma doesn't directly map MySQL TIME type, consider converting to a string format
+  duration     String
   lang         String
   description  String
   genre        Genre  @relation(fields: [id_genre], references: [id])
