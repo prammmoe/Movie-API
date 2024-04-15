@@ -1,4 +1,3 @@
-const db = require("../configs/db"); // Assuming this imports a database connection
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
@@ -45,4 +44,32 @@ const deleteMovie = async (req, res) => {
   });
 };
 
-module.exports = { getMovie, addMovie, deleteMovie };
+const updateMovie = async (req, res) => {
+  const movieId = req.params.id;
+  const movieData = req.body;
+
+  const result = await prisma.movie.update({
+    where: {
+      id: parseInt(movieId),
+    },
+    data: {
+      title: movieData.title,
+      releasedYear: movieData.releasedYear,
+      duration: movieData.duration,
+      lang: movieData.lang,
+      description: movieData.description,
+      genre: {
+        connect: {
+          id: movieData.id_genre,
+        },
+      },
+    },
+  });
+
+  res.send({
+    data: result,
+    message: "Edit movie success",
+  });
+};
+
+module.exports = { getMovie, addMovie, deleteMovie, updateMovie };
