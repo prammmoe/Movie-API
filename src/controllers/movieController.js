@@ -1,54 +1,48 @@
 const db = require("../configs/db"); // Assuming this imports a database connection
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
-const getMovie = (req, res) => {
-  db.query("SELECT * FROM movies", function (err, results) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.status(200).json({
-        message: "GET all movies success",
-        data: results,
-      });
-    }
+const getMovie = async (req, res) => {
+  const movie = await prisma.movie.findMany();
+
+  res.send(movie);
+};
+
+const addMovie = async (req, res) => {
+  const newMovieData = req.body;
+
+  const result = await prisma.movie.create({
+    data: {
+      title: newMovieData.title,
+      releasedYear: newMovieData.releasedYear,
+      duration: newMovieData.duration,
+      lang: newMovieData.lang,
+      description: newMovieData.description,
+      genre: {
+        connect: {
+          id: newMovieData.id_genre,
+        },
+      },
+    },
+  });
+  res.send({
+    data: result,
+    message: "Create movie success",
   });
 };
 
-const addMovie = (req, res) => {
-  const { title, released_year, duration, lang, description, id_genre } =
-    req.body;
+const deleteMovie = async (req, res) => {
+  const movieId = req.params.id;
 
-  if (
-    !title ||
-    !released_year ||
-    !duration ||
-    !lang ||
-    !description ||
-    !id_genre
-  ) {
-    res.status(300).json({
-      message: "The values can't be null.",
-    });
+  await prisma.movie.delete({
+    where: {
+      id: parseInt(movieId),
+    },
+  });
 
-    console.log(req.body);
-  } else {
-    db.query(
-      "INSERT INTO movies (title, released_year, duration, lang, description, id_genre) values (?, ?, ?, ?, ?, ?)",
-      [title, released_year, duration, lang, description, id_genre],
-      function (err, results) {
-        if (err) {
-          console.log(err);
-          res.status(400).json({
-            message: "Error add data.",
-          });
-        } else {
-          res.status(200).json({
-            message: "POST movie success",
-            data: req.body,
-          });
-        }
-      }
-    );
-  }
+  res.send({
+    message: "Movie deleted",
+  });
 };
 
-module.exports = { getMovie, addMovie };
+module.exports = { getMovie, addMovie, deleteMovie };
