@@ -49,24 +49,34 @@ const addMovie = async (req, res) => {
   const newMovieData = req.body;
 
   try {
-    const result = await prisma.movie.create({
-      data: {
-        title: newMovieData.title,
-        releasedYear: newMovieData.releasedYear,
-        duration: newMovieData.duration,
-        lang: newMovieData.lang,
-        description: newMovieData.description,
-        genre: {
-          connect: {
-            id: newMovieData.id_genre,
+    if (Array.isArray(newMovieData)) {
+      const createdMovies = await prisma.movie.createMany({
+        data: newMovieData,
+      });
+      res.status(200).send({
+        data: createdMovies,
+        message: "Created movies successfully",
+      });
+    } else {
+      const result = await prisma.movie.create({
+        data: {
+          title: newMovieData.title,
+          releasedYear: newMovieData.releasedYear,
+          duration: newMovieData.duration,
+          lang: newMovieData.lang,
+          description: newMovieData.description,
+          genre: {
+            connect: {
+              id: newMovieData.id_genre,
+            },
           },
         },
-      },
-    });
-    res.status(200).send({
-      data: result,
-      message: "Create movie success",
-    });
+      });
+      res.status(200).send({
+        data: result,
+        message: "Create movie success",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });

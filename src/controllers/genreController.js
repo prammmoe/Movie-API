@@ -50,15 +50,25 @@ const addGenre = async (req, res) => {
   const newGenreData = req.body;
 
   try {
-    const result = await prisma.genre.create({
-      data: {
-        name: newGenreData.name,
-      },
-    });
-    res.send({
-      data: result,
-      message: "Create genre success",
-    });
+    // Check if request body is an array of genres
+    if (Array.isArray(newGenreData)) {
+      const createdGenres = await prisma.genre.createMany({
+        data: newGenreData,
+      });
+      res.status(200).send({
+        data: createdGenres,
+        message: "Created genres successfully",
+      });
+    } else {
+      // Create single genre using create
+      const result = await prisma.genre.create({
+        data: newGenreData,
+      });
+      res.status(200).send({
+        data: result,
+        message: "Created genre successfully",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error" });
