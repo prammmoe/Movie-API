@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../configs/prismaConfig");
 
 const getMovieById = async (prisma, movieId) => {
   try {
@@ -122,7 +121,7 @@ const updateMovie = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send({ message: "Internal Server Error"})
+    res.status(500).send({ message: "Internal Server Error" });
   }
 };
 
