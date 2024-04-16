@@ -72,3 +72,7 @@ GET localhost:7000/movies
     ├──package-lock.json
     ├──package.json
     └── README.md
+
+## TODO
+
+- Renovate the Prisma Model to support many-to-many between movies genre to genre ids'
