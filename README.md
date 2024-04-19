@@ -75,4 +75,4 @@ GET localhost:7000/movies
 
 ## TODO
 
-- Renovate the Prisma Model to support many-to-many between movies genre to genre ids'
+- Renovate the Prisma Model to support many-to-many relations
