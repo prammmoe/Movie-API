@@ -10,9 +10,7 @@ updates:
     schedule:
       interval: "daily"
     allow:
-      # Allow updates for Lodash
       - dependency-type: "all"
-      # Allow updates for React and any packages starting "react"
       - dependency-name: "@prisma/client"
       - dependency-name: "nodemon"
       - dependency-name: "express"
