@@ -16,16 +16,14 @@ datasource db {
 model Genre {
   id    Int     @id @default(autoincrement())
   name  String  @unique
-  Movie Movie[]
+  movies Movie[]
 }
 
 model Movie {
-  id           Int    @id @default(autoincrement())
-  title        String @unique
+  id Int @id @default(autoincrement())
+  title String @unique
   releasedYear Int
-  duration     String
-  lang         String
-  description  String
-  genre        Genre  @relation(fields: [id_genre], references: [id])
-  id_genre     Int
+  duration String
+  lang String
+  genres Genre[]
 }
