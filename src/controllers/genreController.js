@@ -16,7 +16,11 @@ const getGenreById = async (prisma, genreId) => {
 
 const getAllGenres = async (prisma) => {
   try {
-    const genres = await prisma.genre.findMany();
+    const genres = await prisma.genre.findMany({
+      include: {
+        movies: true,
+      },
+    });
     return genres;
   } catch (error) {
     console.log(error);
