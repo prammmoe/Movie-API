@@ -6,6 +6,9 @@ const getMovieById = async (prisma, movieId) => {
       where: {
         id: movieId,
       },
+      include: {
+        genres: true,
+      },
     });
     return movie;
   } catch (error) {

@@ -6,6 +6,9 @@ const getGenreById = async (prisma, genreId) => {
       where: {
         id: genreId,
       },
+      include: {
+        genres: true,
+      },
     });
     return genre;
   } catch (error) {
