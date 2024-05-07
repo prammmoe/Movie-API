@@ -73,6 +73,11 @@ const addMovie = async (req, res) => {
           lang: newMovieData.lang,
           description: newMovieData.description,
           genre: {
+            create: [
+              {
+                name: newMovieData.name,
+              },
+            ],
             connect: {
               id: newMovieData.id_genre,
             },
