@@ -40,7 +40,7 @@ const getMovie = async (req, res) => {
       if (movie) {
         res.status(200).send(movie);
       } else {
-        res.status(404).send({ message: "Movie is not found" });
+        res.status(404).send({ message: "Movie not found" });
       }
     } else {
       const movies = await getAllMovies(prisma);
