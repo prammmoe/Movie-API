@@ -14,7 +14,7 @@ app.use(genreRoutes);
 
 // Index endpoint
 app.get("/", (req, res) => {
-  res.send("Woi!");
+  res.send("Ah sa gamau woi!");
 });
 
 app.listen(port, () => {
